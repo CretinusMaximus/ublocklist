@@ -94,7 +94,6 @@ www.youtube.com##ytd-browse[page-subtype="home"]
 ! YT Videos - No Sidebar
 www.youtube.com##ytd-watch-flexy #secondary
 ! YT Videos - Sidebar Without Recommendations
-www.youtube.com##ytd-watch-flexy #secondary
 ! YT Homepage - Hide the Posts Section
 www.youtube.com##ytd-browse[page-subtype="home"] ytd-rich-section-renderer:has(ytd-rich-item-renderer[is-post])
 ! YT Homepage - Hide Posts
@@ -509,41 +508,3 @@ www.youtube.com##.ytp-fullscreen-grid
 ! Live chat
 youtube.com##ytd-watch-flexy[live-chat-present-and-expanded] #columns:style(padding-right: 0 !important;)
 youtube.com###chat-container, ytd-watch-flexy[live-chat-present-and-expanded] #panels-full-bleed-container
-
-! ============================
-! Title: YouTube Fullscreen Theater Mode
-! Expires: 1 days
-! Description: Forces YouTube's native theater mode to behave as windowed fullscreen.
-! ============================
-
-youtube.com##+js(trusted-set, ytAutoFullscreen, true)
-youtube.com##+js(trusted-create-element, script, `
-(() => {
-  const enterFullscreen = () => {
-    const btn = document.querySelector('.ytp-fullscreen-button');
-    if (
-      btn &&
-      document.querySelector('video') &&
-      !document.fullscreenElement &&
-      btn.getAttribute('data-title-no-tooltip') !== 'Exit full screen'
-    ) {
-      btn.click();
-    }
-  };
-
-  new MutationObserver(enterFullscreen).observe(document, {
-    childList: true,
-    subtree: true
-  });
-
-  window.addEventListener('yt-navigate-finish', enterFullscreen);
-  window.addEventListener('load', enterFullscreen);
-
-  setTimeout(enterFullscreen, 1000);
-})();
-`)
-
-www.youtube.com##ytd-watch-flexy[theater] #columns:style(padding-top: 0px !important;)
-www.youtube.com##ytd-watch-grid[theater] #columns:style(padding-top: 0px !important;)
-
-www.youtube.com##ytd-live-chat-frame[theater-watch-while]:style(top: 0 !important; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;)
