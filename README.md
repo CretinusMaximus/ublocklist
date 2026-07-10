@@ -510,3 +510,5 @@ www.youtube.com##.ytp-fullscreen-grid
 youtube.com##ytd-watch-flexy[live-chat-present-and-expanded] #columns:style(padding-right: 0 !important;)
 youtube.com###chat-container, ytd-watch-flexy[live-chat-present-and-expanded] #panels-full-bleed-container
 
+! Force Full Screen in YT
+www.youtube.com##ytd-app:style(overflow: hidden !important;)
