@@ -516,21 +516,32 @@ youtube.com###chat-container, ytd-watch-flexy[live-chat-present-and-expanded] #p
 ! Description: Forces YouTube's native theater mode to behave as windowed fullscreen.
 ! ============================
 
-www.youtube.com##html:has(ytd-watch-flexy[theater]):style(overflow: hidden !important;)
-www.youtube.com##html:has(ytd-watch-grid[theater]):style(overflow: hidden !important;)
-www.youtube.com##body:style(overflow-anchor: none !important;)
+youtube.com##+js(trusted-set, ytAutoFullscreen, true)
+youtube.com##+js(trusted-create-element, script, `
+(() => {
+  const enterFullscreen = () => {
+    const btn = document.querySelector('.ytp-fullscreen-button');
+    if (
+      btn &&
+      document.querySelector('video') &&
+      !document.fullscreenElement &&
+      btn.getAttribute('data-title-no-tooltip') !== 'Exit full screen'
+    ) {
+      btn.click();
+    }
+  };
 
-www.youtube.com##ytd-masthead[theater]:upward(#masthead-container):style(display: none !important;)
+  new MutationObserver(enterFullscreen).observe(document, {
+    childList: true,
+    subtree: true
+  });
 
-www.youtube.com##ytd-watch-flexy[theater] #player-full-bleed-container.ytd-watch-flexy:style(height: 100vh !important; min-height: 100vh !important; max-height: 100vh !important; margin-top: 0px !important; background: #000000 !important;)
-www.youtube.com##ytd-watch-grid[theater] #player-full-bleed-container.ytd-watch-grid:style(height: 100vh !important; min-height: 100vh !important; max-height: 100vh !important; margin-top: 0px !important; background: #000000 !important;)
+  window.addEventListener('yt-navigate-finish', enterFullscreen);
+  window.addEventListener('load', enterFullscreen);
 
-www.youtube.com##ytd-watch-flexy[theater] #full-bleed-container.ytd-watch-flexy:style(block-size: fit-content !important; max-height: fit-content !important; background: #000000 !important;)
-www.youtube.com##ytd-watch-grid[theater] #full-bleed-container.ytd-watch-grid:style(block-size: fit-content !important; max-height: fit-content !important; background: #000000 !important;)
-
-www.youtube.com##ytd-watch-flexy[theater] #player-container:style(height: 100vh !important; top: 0 !important; background: #000000 !important;)
-www.youtube.com##ytd-watch-flexy[theater] #ytd-player:style(height: 100vh !important; top: 0 !important; background: #000000 !important;)
-www.youtube.com##ytd-watch-flexy[theater] .html5-video-player:style(height: 100vh !important; min-height: 100vh !important; top: 0 !important; background: #000000 !important;)
+  setTimeout(enterFullscreen, 1000);
+})();
+`)
 
 www.youtube.com##ytd-watch-flexy[theater] #columns:style(padding-top: 0px !important;)
 www.youtube.com##ytd-watch-grid[theater] #columns:style(padding-top: 0px !important;)
